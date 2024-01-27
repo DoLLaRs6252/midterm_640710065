@@ -10,14 +10,14 @@ class TestPage extends StatefulWidget {
 class _Test_pageState extends State<TestPage> {
   String currentNumber = "0";
 
-  Widget buildNumberButton(String label, {required VoidCallback onPressed}) {
+  Widget buildNumberButton(String label,Color color, {required VoidCallback onPressed}) {
     return Expanded(
-      flex: label == "0" ? 3 : 1, 
+      flex: label == "0" ? 3 : 1,
       child: Container(
         margin: const EdgeInsets.all(6),
         child: Ink(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 230, 200, 118),
+            color: color
           ),
           child: InkWell(
             onTap: onPressed,
@@ -36,18 +36,15 @@ class _Test_pageState extends State<TestPage> {
     );
   }
 
-  Widget buildOperationButton(String label, {required VoidCallback onPressed}) {
+  Widget buildOperationButton(String label, Color color,
+      {required VoidCallback onPressed}) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(6),
         child: Ink(
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 230, 200, 118),
-
-          ),
+          decoration: BoxDecoration(color: color),
           child: InkWell(
             onTap: onPressed,
-
             child: Center(
               child: Text(
                 label,
@@ -76,30 +73,31 @@ class _Test_pageState extends State<TestPage> {
               child: Text(
                 currentNumber,
                 style: TextStyle(
-                  fontSize: 70.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 65.0,
                 ),
               ),
             ),
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("C", onPressed: () => clear()),
-                  buildNumberButton(
+                  buildOperationButton("C",Color.fromRGBO(238, 238, 238, 1), onPressed: () => clear()),
+                  buildOperationButton(
                     "⌫",
+                    Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => delete(),
-                  ),
+                  )
                 ],
               ),
             ),
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("7", onPressed: () => update("7")),
-                  buildNumberButton("8", onPressed: () => update("8")),
-                  buildNumberButton("9", onPressed: () => update("9")),
+                  buildNumberButton("7",Color.fromRGBO(106, 191, 216, 1), onPressed: () => update("7")),
+                  buildNumberButton("8", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("8")),
+                  buildNumberButton("9", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("9")),
                   buildOperationButton(
                     "÷",
+                    Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("÷"),
                   ),
                 ],
@@ -108,11 +106,12 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("4", onPressed: () => update("4")),
-                  buildNumberButton("5", onPressed: () => update("5")),
-                  buildNumberButton("6", onPressed: () => update("6")),
+                  buildNumberButton("4", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("4")),
+                  buildNumberButton("5", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("5")),
+                  buildNumberButton("6", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("6")),
                   buildOperationButton(
                     "×",
+                    Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("×"),
                   ),
                 ],
@@ -121,11 +120,12 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("1", onPressed: () => update("1")),
-                  buildNumberButton("2", onPressed: () => update("2")),
-                  buildNumberButton("3", onPressed: () => update("3")),
+                  buildNumberButton("1", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("1")),
+                  buildNumberButton("2", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("2")),
+                  buildNumberButton("3", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("3")),
                   buildOperationButton(
                     "-",
+                    Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("-"),
                   ),
                 ],
@@ -134,9 +134,10 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("0", onPressed: () => update("0")),
+                  buildNumberButton("0", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("0")),
                   buildOperationButton(
                     "+",
+                    Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("+"),
                   ),
                 ],
@@ -148,6 +149,7 @@ class _Test_pageState extends State<TestPage> {
                   Expanded(
                     child: buildOperationButton(
                       "=",
+                      Color.fromRGBO(0, 152, 198, 1),
                       onPressed: () => clear(),
                     ),
                   ),
