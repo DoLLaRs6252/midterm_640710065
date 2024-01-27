@@ -10,7 +10,7 @@ class TestPage extends StatefulWidget {
 class _Test_pageState extends State<TestPage> {
   String currentNumber = "0";
 
-  Widget buildNumberButton(String label,Color color, {required VoidCallback onPressed}) {
+  Widget buildButton(String label,Color color, {required VoidCallback onPressed}) {
     return Expanded(
       flex: label == "0" ? 3 : 1,
       child: Container(
@@ -35,14 +35,15 @@ class _Test_pageState extends State<TestPage> {
       ),
     );
   }
-
-  Widget buildOperationButton(String label, Color color,
-      {required VoidCallback onPressed}) {
+  Widget buildButtonwh(String label,Color color, {required VoidCallback onPressed}) {
     return Expanded(
+      flex: label == "0" ? 3 : 1,
       child: Container(
         margin: const EdgeInsets.all(6),
         child: Ink(
-          decoration: BoxDecoration(color: color),
+          decoration: BoxDecoration(
+            color: color
+          ),
           child: InkWell(
             onTap: onPressed,
             child: Center(
@@ -51,6 +52,7 @@ class _Test_pageState extends State<TestPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 35.0,
+                  color: Color.fromARGB(255, 255, 255, 255)
                 ),
               ),
             ),
@@ -80,8 +82,8 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildOperationButton("C",Color.fromRGBO(238, 238, 238, 1), onPressed: () => clear()),
-                  buildOperationButton(
+                  buildButton("C",Color.fromRGBO(238, 238, 238, 1), onPressed: () => clear()),
+                  buildButton(
                     "⌫",
                     Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => delete(),
@@ -92,10 +94,10 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("7",Color.fromRGBO(106, 191, 216, 1), onPressed: () => update("7")),
-                  buildNumberButton("8", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("8")),
-                  buildNumberButton("9", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("9")),
-                  buildOperationButton(
+                  buildButton("7",Color.fromRGBO(106, 191, 216, 1), onPressed: () => update("7")),
+                  buildButton("8", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("8")),
+                  buildButton("9", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("9")),
+                  buildButton(
                     "÷",
                     Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("÷"),
@@ -106,10 +108,10 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("4", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("4")),
-                  buildNumberButton("5", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("5")),
-                  buildNumberButton("6", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("6")),
-                  buildOperationButton(
+                  buildButton("4", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("4")),
+                  buildButton("5", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("5")),
+                  buildButton("6", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("6")),
+                  buildButton(
                     "×",
                     Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("×"),
@@ -120,10 +122,10 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("1", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("1")),
-                  buildNumberButton("2", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("2")),
-                  buildNumberButton("3", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("3")),
-                  buildOperationButton(
+                  buildButton("1", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("1")),
+                  buildButton("2", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("2")),
+                  buildButton("3", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("3")),
+                  buildButton(
                     "-",
                     Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("-"),
@@ -134,8 +136,8 @@ class _Test_pageState extends State<TestPage> {
             Expanded(
               child: Row(
                 children: [
-                  buildNumberButton("0", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("0")),
-                  buildOperationButton(
+                  buildButton("0", Color.fromRGBO(106, 191, 216, 1),onPressed: () => update("0")),
+                  buildButton(
                     "+",
                     Color.fromRGBO(238, 238, 238, 1),
                     onPressed: () => updateop("+"),
@@ -147,7 +149,7 @@ class _Test_pageState extends State<TestPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: buildOperationButton(
+                    child: buildButtonwh(
                       "=",
                       Color.fromRGBO(0, 152, 198, 1),
                       onPressed: () => clear(),
@@ -172,18 +174,30 @@ class _Test_pageState extends State<TestPage> {
     });
   }
 
-  void updateop(String digit) {
-    setState(() {
-      if (currentNumber.endsWith("+") ||
-          currentNumber.endsWith("×") ||
-          currentNumber.endsWith("÷") ||
-          currentNumber.endsWith("-") ||
-          currentNumber == "0") {
-      } else {
-        currentNumber = currentNumber + digit;
-      }
-    });
-  }
+void updateop(String digit) {
+  setState(() {
+    if(currentNumber== "0"){
+
+    }else if (currentNumber == "0" && digit != ".") {
+      // ถ้าตัวเลขปัจจุบันเป็น "0" และไม่ได้กด . เพิ่มเครื่องหมายและตัวเลขใหม่
+      currentNumber = digit;
+    } else if (currentNumber.endsWith("+") ||
+        currentNumber.endsWith("×") ||
+        currentNumber.endsWith("÷") ||
+        currentNumber.endsWith("-")) {
+      // ถ้าตัวเลขปัจจุบันลงท้ายด้วยเครื่องหมายทางคณิตศาสตร์ เปลี่ยนเครื่องหมาย
+      currentNumber = currentNumber.substring(0, currentNumber.length - 1) + digit;
+    } else if (currentNumber.endsWith(digit)) {
+      // ถ้าตัวเลขปัจจุบันลงท้ายด้วยเครื่องหมายที่กำลังกด เราจะเปลี่ยนเครื่องหมาย
+      currentNumber = currentNumber.substring(0, currentNumber.length - 1) + digit;
+    } else if (!"+-×÷".contains(currentNumber.substring(currentNumber.length - 1))) {
+      // ถ้าตัวเลขปัจจุบันไม่ลงท้ายด้วยเครื่องหมายทางคณิตศาสตร์ เพิ่มเครื่องหมายใหม่
+      currentNumber += digit;
+    }
+    
+  });
+}
+
 
   void clear() {
     setState(() {
