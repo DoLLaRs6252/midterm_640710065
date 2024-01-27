@@ -1,37 +1,60 @@
 import 'package:flutter/material.dart';
 
-class Test_page extends StatelessWidget {
-  const Test_page({Key? key}) : super(key: key);
+class TestPage extends StatefulWidget {
+  const TestPage({Key? key}) : super(key: key);
 
-  Widget buildItem({
-    required dynamic label,
-  }) {
+  @override
+  State<TestPage> createState() => _Test_pageState();
+}
+
+class _Test_pageState extends State<TestPage> {
+  String currentNumber = "0";
+
+  Widget buildNumberButton(String label, {required VoidCallback onPressed}) {
     return Expanded(
-      // Expanded สำหรับทำให้ปรับขนาดตามพื้นที่ที่เหลือใน Column
+      flex: label == "0" ? 3 : 1, 
       child: Container(
         margin: const EdgeInsets.all(6),
-        child: InkWell(
-          child: Container(
-            //padding: const EdgeInsets.all(0.5),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 230, 200, 118),
-            ),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 230, 200, 118),
+          ),
+          child: InkWell(
+            onTap: onPressed,
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment
-                    .center, // จัดตำแหน่งของข้อความและไอคอนตรงกลาง
-                children: [
-                  if (label is String)
-                    Text(
-                      label,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  if (label is Icon) label,
-                ],
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 35.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildOperationButton(String label, {required VoidCallback onPressed}) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.all(6),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 230, 200, 118),
+
+          ),
+          child: InkWell(
+            onTap: onPressed,
+
+            child: Center(
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 35.0,
+                ),
               ),
             ),
           ),
@@ -48,12 +71,12 @@ class Test_page extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              alignment: Alignment.centerRight, // ชิดขวา
-              padding: const EdgeInsets.only(right: 20.0), // เพิ่มระยะห่างข้างขวา
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 20.0),
               child: Text(
-                "0",
+                currentNumber,
                 style: TextStyle(
-                  fontSize: 80.0,
+                  fontSize: 70.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -61,12 +84,10 @@ class Test_page extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(
-                    child: buildItem(label: "C"), // ส่ง String เข้าไป
-                  ),
-                  Expanded(
-                    child: buildItem(
-                        label: Icon(Icons.backspace)), // ส่ง Icon เข้าไป
+                  buildNumberButton("C", onPressed: () => clear()),
+                  buildNumberButton(
+                    "⌫",
+                    onPressed: () => delete(),
                   ),
                 ],
               ),
@@ -74,30 +95,50 @@ class Test_page extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  buildItem(label: "7"),
-                  buildItem(label: "8"),
-                  buildItem(label: "9"),
-                  buildItem(label: "\u00F7"),
+                  buildNumberButton("7", onPressed: () => update("7")),
+                  buildNumberButton("8", onPressed: () => update("8")),
+                  buildNumberButton("9", onPressed: () => update("9")),
+                  buildOperationButton(
+                    "÷",
+                    onPressed: () => updateop("÷"),
+                  ),
                 ],
               ),
             ),
             Expanded(
               child: Row(
                 children: [
-                  buildItem(label: "4"),
-                  buildItem(label: "5"),
-                  buildItem(label: "6"),
-                  buildItem(label: "\u00D7"),
+                  buildNumberButton("4", onPressed: () => update("4")),
+                  buildNumberButton("5", onPressed: () => update("5")),
+                  buildNumberButton("6", onPressed: () => update("6")),
+                  buildOperationButton(
+                    "×",
+                    onPressed: () => updateop("×"),
+                  ),
                 ],
               ),
             ),
             Expanded(
               child: Row(
                 children: [
-                  buildItem(label: "1"),
-                  buildItem(label: "2"),
-                  buildItem(label: "3"),
-                  buildItem(label: "-"),
+                  buildNumberButton("1", onPressed: () => update("1")),
+                  buildNumberButton("2", onPressed: () => update("2")),
+                  buildNumberButton("3", onPressed: () => update("3")),
+                  buildOperationButton(
+                    "-",
+                    onPressed: () => updateop("-"),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  buildNumberButton("0", onPressed: () => update("0")),
+                  buildOperationButton(
+                    "+",
+                    onPressed: () => updateop("+"),
+                  ),
                 ],
               ),
             ),
@@ -105,23 +146,56 @@ class Test_page extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 3,
-                    child: buildItem(label: "0"),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: buildItem(label: "+"),
+                    child: buildOperationButton(
+                      "=",
+                      onPressed: () => clear(),
+                    ),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: buildItem(label: "="),
-            )
           ],
         ),
       ),
     );
+  }
+
+  void update(String digit) {
+    setState(() {
+      if (currentNumber != "0") {
+        currentNumber = currentNumber + digit;
+      } else {
+        currentNumber = digit;
+      }
+    });
+  }
+
+  void updateop(String digit) {
+    setState(() {
+      if (currentNumber.endsWith("+") ||
+          currentNumber.endsWith("×") ||
+          currentNumber.endsWith("÷") ||
+          currentNumber.endsWith("-") ||
+          currentNumber == "0") {
+      } else {
+        currentNumber = currentNumber + digit;
+      }
+    });
+  }
+
+  void clear() {
+    setState(() {
+      currentNumber = "0";
+    });
+  }
+
+  void delete() {
+    setState(() {
+      if (currentNumber.length > 1) {
+        currentNumber = currentNumber.substring(0, currentNumber.length - 1);
+      } else {
+        currentNumber = "0";
+      }
+    });
   }
 }
