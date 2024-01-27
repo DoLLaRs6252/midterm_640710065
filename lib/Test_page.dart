@@ -178,9 +178,6 @@ void updateop(String digit) {
   setState(() {
     if(currentNumber== "0"){
 
-    }else if (currentNumber == "0" && digit != ".") {
-      // ถ้าตัวเลขปัจจุบันเป็น "0" และไม่ได้กด . เพิ่มเครื่องหมายและตัวเลขใหม่
-      currentNumber = digit;
     } else if (currentNumber.endsWith("+") ||
         currentNumber.endsWith("×") ||
         currentNumber.endsWith("÷") ||
@@ -193,8 +190,7 @@ void updateop(String digit) {
     } else if (!"+-×÷".contains(currentNumber.substring(currentNumber.length - 1))) {
       // ถ้าตัวเลขปัจจุบันไม่ลงท้ายด้วยเครื่องหมายทางคณิตศาสตร์ เพิ่มเครื่องหมายใหม่
       currentNumber += digit;
-    }
-    
+    }    
   });
 }
 
